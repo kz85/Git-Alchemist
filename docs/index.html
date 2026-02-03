@@ -12,6 +12,7 @@
         .glass { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .gradient-text { background: linear-gradient(135deg, #60a5fa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .copy-btn:active { transform: scale(0.95); }
+        .tab-active { border-bottom: 2px solid #60a5fa; color: #60a5fa; }
     </style>
 </head>
 <body class="selection:bg-blue-500/30">
@@ -38,76 +39,72 @@
         </div>
     </div>
 
-    <!-- Installation Grid -->
-    <div id="install" class="max-w-5xl mx-auto px-6 py-12">
-        <h2 class="text-2xl font-bold mb-8 text-center text-slate-200">Instant Installation</h2>
-        <div class="grid md:grid-cols-3 gap-6">
-            
-            <!-- Linux/Shell -->
-            <div class="glass p-6 rounded-2xl flex flex-col justify-between">
-                <div>
-                    <h3 class="font-bold text-slate-100 mb-2 flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-green-400"></span> Linux / Shell
-                    </h3>
-                    <p class="text-sm text-slate-500 mb-4">Perfect for Termux, Ubuntu, or WSL.</p>
-                </div>
-                <div class="relative group">
-                    <code class="block p-3 bg-black/40 rounded-lg text-xs mono text-slate-300 break-all border border-white/5">
-                        git clone https://github.com/abduznik/Git-Alchemist.git && cd Git-Alchemist && pip install -r requirements.txt
-                    </code>
-                    <button onclick="copyToClipboard(this)" data-cmd="git clone https://github.com/abduznik/Git-Alchemist.git && cd Git-Alchemist && pip install -r requirements.txt" class="copy-btn absolute top-2 right-2 p-1.5 bg-slate-800 rounded-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-slate-700">
-                        <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
-                    </button>
-                </div>
+    <!-- Installation Section -->
+    <div id="install" class="max-w-3xl mx-auto px-6 py-12">
+        <div class="glass rounded-3xl overflow-hidden">
+            <!-- Tabs Header -->
+            <div class="flex border-b border-white/5 bg-black/20">
+                <button onclick="switchTab('ps')" id="tab-ps" class="tab-btn flex-1 py-4 text-sm font-bold tracking-wide transition uppercase tab-active">Windows (PS)</button>
+                <button onclick="switchTab('sh')" id="tab-sh" class="tab-btn flex-1 py-4 text-sm font-bold tracking-wide transition uppercase">Linux/Shell</button>
+                <button onclick="switchTab('mac')" id="tab-mac" class="tab-btn flex-1 py-4 text-sm font-bold tracking-wide transition uppercase">macOS</button>
             </div>
-
-            <!-- Windows/PowerShell -->
-            <div class="glass p-6 rounded-2xl flex flex-col justify-between">
-                <div>
-                    <h3 class="font-bold text-slate-100 mb-2 flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-blue-400"></span> PowerShell
-                    </h3>
-                    <p class="text-sm text-slate-500 mb-4">Optimized for Windows 10/11.</p>
+            
+            <!-- Code Block -->
+            <div class="p-8 relative group">
+                <div class="mb-4">
+                    <h3 id="os-title" class="text-slate-100 font-bold mb-1">PowerShell Setup</h3>
+                    <p id="os-desc" class="text-xs text-slate-500">Optimized for Windows 10/11 environment.</p>
                 </div>
-                <div class="relative group">
-                    <code class="block p-3 bg-black/40 rounded-lg text-xs mono text-slate-300 break-all border border-white/5">
+                <div class="relative">
+                    <code id="install-cmd" class="block p-4 bg-black/40 rounded-xl text-sm mono text-blue-300 break-all border border-white/5 leading-relaxed">
                         git clone https://github.com/abduznik/Git-Alchemist.git; cd Git-Alchemist; pip install -r requirements.txt
                     </code>
-                    <button onclick="copyToClipboard(this)" data-cmd="git clone https://github.com/abduznik/Git-Alchemist.git; cd Git-Alchemist; pip install -r requirements.txt" class="copy-btn absolute top-2 right-2 p-1.5 bg-slate-800 rounded-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-slate-700">
-                        <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
+                    <button onclick="copyCurrentCmd(this)" class="copy-btn absolute top-3 right-3 p-2 bg-slate-800 rounded-lg border border-white/10 hover:bg-slate-700 transition">
+                        <svg class="w-5 h-5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
                     </button>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <!-- MacOS -->
-            <div class="glass p-6 rounded-2xl flex flex-col justify-between">
-                <div>
-                    <h3 class="font-bold text-slate-100 mb-2 flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-slate-400"></span> macOS
-                    </h3>
-                    <p class="text-sm text-slate-500 mb-4">Native setup for Mac users.</p>
+    <!-- AI Stack Manager Section -->
+    <div class="max-w-5xl mx-auto px-6 py-12">
+        <div class="grid md:grid-cols-2 gap-8 items-center bg-gradient-to-br from-blue-600/10 to-purple-600/10 rounded-3xl p-8 border border-blue-500/20">
+            <div>
+                <h2 class="text-3xl font-extrabold mb-4">Prefer a Dashboard?</h2>
+                <p class="text-slate-400 mb-6 leading-relaxed">
+                    Host the entire Alchemist stack as a Docker container with <strong>AI-Stack-Manager</strong>. Manage repositories, topics, and architecture from a beautiful web interface.
+                </p>
+                <a href="https://github.com/abduznik/AI-Stack-Manager" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition">
+                    Explore AI-Stack-Manager
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </a>
+            </div>
+            <div class="glass p-4 rounded-2xl rotate-2 shadow-2xl">
+                <div class="flex gap-1.5 mb-3">
+                    <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500/50"></div>
                 </div>
-                <div class="relative group">
-                    <code class="block p-3 bg-black/40 rounded-lg text-xs mono text-slate-300 break-all border border-white/5">
-                        git clone https://github.com/abduznik/Git-Alchemist.git && cd Git-Alchemist && pip3 install -r requirements.txt
-                    </code>
-                    <button onclick="copyToClipboard(this)" data-cmd="git clone https://github.com/abduznik/Git-Alchemist.git && cd Git-Alchemist && pip3 install -r requirements.txt" class="copy-btn absolute top-2 right-2 p-1.5 bg-slate-800 rounded-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-slate-700">
-                        <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
-                    </button>
+                <div class="space-y-2">
+                    <div class="h-4 bg-white/5 rounded w-3/4"></div>
+                    <div class="h-4 bg-white/5 rounded w-1/2"></div>
+                    <div class="h-32 bg-blue-500/10 rounded border border-blue-500/20 flex items-center justify-center">
+                        <span class="text-blue-400 font-bold text-xs uppercase tracking-widest">Web Dashboard Active</span>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 
     <!-- Quick Guide -->
     <div class="max-w-3xl mx-auto px-6 py-12">
         <div class="glass p-8 rounded-3xl">
-            <h2 class="text-xl font-bold mb-6 text-fuchsia-400">Post-Installation Guide</h2>
+            <h2 class="text-xl font-bold mb-6 text-fuchsia-400">Quick Start Guide</h2>
             <div class="space-y-6 text-slate-300 text-sm leading-relaxed">
                 <div>
                     <span class="font-bold text-white block mb-1">1. Authenticate GitHub CLI</span>
-                    Make sure you are logged in to the <code>gh</code> tool: 
+                    Ensure you are logged in: 
                     <code class="bg-black/40 px-2 py-1 rounded">gh auth login</code>
                 </div>
                 <div>
@@ -117,8 +114,8 @@
                 </div>
                 <div>
                     <span class="font-bold text-white block mb-1">3. Start the Transmutation</span>
-                    Run your first optimization:
-                    <code class="block mt-2 p-3 bg-black/40 rounded-lg text-blue-300 mono">python3 -m src.cli topics</code>
+                    Optimize your profile or repo metadata:
+                    <code class="block mt-2 p-3 bg-black/40 rounded-lg text-blue-300 mono">python3 -m src.cli topics --smart</code>
                 </div>
             </div>
         </div>
@@ -130,11 +127,40 @@
     </div>
 
     <script>
-        function copyToClipboard(btn) {
-            const cmd = btn.getAttribute('data-cmd');
+        const configs = {
+            ps: {
+                title: 'PowerShell Setup',
+                desc: 'Optimized for Windows 10/11 environment.',
+                cmd: 'git clone https://github.com/abduznik/Git-Alchemist.git; cd Git-Alchemist; pip install -r requirements.txt'
+            },
+            sh: {
+                title: 'Linux / Shell Setup',
+                desc: 'Ideal for Termux, Ubuntu, or WSL.',
+                cmd: 'git clone https://github.com/abduznik/Git-Alchemist.git && cd Git-Alchemist && pip install -r requirements.txt'
+            },
+            mac: {
+                title: 'macOS Setup',
+                desc: 'Native command-line setup for Mac.',
+                cmd: 'git clone https://github.com/abduznik/Git-Alchemist.git && cd Git-Alchemist && pip3 install -r requirements.txt'
+            }
+        };
+
+        function switchTab(os) {
+            // Update Buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('tab-active'));
+            document.getElementById('tab-' + os).classList.add('tab-active');
+
+            // Update Content
+            document.getElementById('os-title').innerText = configs[os].title;
+            document.getElementById('os-desc').innerText = configs[os].desc;
+            document.getElementById('install-cmd').innerText = configs[os].cmd;
+        }
+
+        function copyCurrentCmd(btn) {
+            const cmd = document.getElementById('install-cmd').innerText;
             navigator.clipboard.writeText(cmd).then(() => {
                 const originalHtml = btn.innerHTML;
-                btn.innerHTML = '<svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+                btn.innerHTML = '<svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
                 setTimeout(() => { btn.innerHTML = originalHtml; }, 2000);
             });
         }
