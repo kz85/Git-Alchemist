@@ -10,11 +10,11 @@ from .utils import run_shell
 
 console = Console()
 
-def scaffold_project(instruction):
+def scaffold_project(instruction, mode="fast"):
     """
     Generates shell commands to scaffold a project in a temporary directory.
     """
-    console.print(f"[cyan]Architecting solution for: {instruction}[/cyan]")
+    console.print(f"[cyan]Architecting solution for: {instruction} ({mode} mode)...[/cyan]")
     
     # Create temp env
     temp_dir = tempfile.mkdtemp(prefix="git_alchemist_scaffold_")
@@ -30,7 +30,7 @@ Example: {{"commands": ["mkdir src", "touch src/main.py", "echo 'print(1)' > src
 Do NOT use markdown blocks.
 """
 
-    result = generate_content(prompt)
+    result = generate_content(prompt, mode=mode)
     if not result:
         shutil.rmtree(temp_dir)
         return
@@ -83,7 +83,7 @@ Do NOT use markdown blocks.
             shutil.rmtree(temp_dir)
             console.print("[gray]Temporary workspace cleaned up.[/gray]")
 
-def fix_code(file_path, instruction):
+def fix_code(file_path, instruction, mode="fast"):
     """
     Reads a file, applies an AI fix, and optionally creates a PR.
     """
@@ -91,7 +91,7 @@ def fix_code(file_path, instruction):
         console.print(f"[red]File not found:[/red] {file_path}")
         return
 
-    console.print(f"[cyan]Reading {file_path}...[/cyan]")
+    console.print(f"[cyan]Reading {file_path} ({mode} mode)...[/cyan]")
     with open(file_path, "r", encoding="utf-8") as f:
         content = f.read()
 
@@ -110,8 +110,8 @@ Target File Content:
 Goal: Return ONLY the complete, corrected file content based on the User Instructions. Do not use markdown blocks.
 """
     
-    console.print("[magenta]Consulting Gemini...[/magenta]")
-    result = generate_content(prompt)
+    console.print(f"[magenta]Consulting Gemini ({mode} mode)...[/magenta]")
+    result = generate_content(prompt, mode=mode)
     if not result:
         return
 
@@ -139,11 +139,11 @@ Goal: Return ONLY the complete, corrected file content based on the User Instruc
         except Exception as e:
             console.print(f"[red]PR creation failed:[/red] {e}")
 
-def explain_code(context):
+def explain_code(context, mode="fast"):
     """
     Explains a concept or code snippet.
     """
     prompt = f"Task: Explain Concept/Code. Context: '{context}'. Keep it concise and technical."
-    result = generate_content(prompt)
+    result = generate_content(prompt, mode=mode)
     if result:
         console.print(f"\n[bold white]--- Explanation ---[/bold white]\n{result}\n[bold white]-------------------[/bold white]")

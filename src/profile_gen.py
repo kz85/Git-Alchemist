@@ -50,7 +50,7 @@ def filter_repos(repos, username, strategy="FULL_GEN", existing_content=""):
         
     return candidates
 
-def generate_profile(username, force=False):
+def generate_profile(username, force=False, mode="fast"):
     """
     Main function to generate or update the profile.
     """
@@ -129,8 +129,8 @@ Instructions:
 5. Output the FULL final Markdown.
 """
 
-    console.print("[magenta]Generating content with Gemini...[/magenta]")
-    result = generate_content(prompt)
+    console.print(f"[magenta]Generating content with Gemini ({mode} mode)...[/magenta]")
+    result = generate_content(prompt, mode=mode)
     
     if not result:
         return
