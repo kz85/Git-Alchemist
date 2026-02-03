@@ -1,6 +1,6 @@
 # Git-Alchemist ⚗️
 
-**Git-Alchemist** is a unified AI-powered CLI tool for automating GitHub repository management. It consolidates multiple technical utilities into a single, intelligent system powered by Google's Gemini and Gemma 3 models.
+**Git-Alchemist ⚗️** is a unified AI-powered CLI tool for automating GitHub repository management. It consolidates multiple technical utilities into a single, intelligent system powered by Google's Gemini 3 and Gemma 3 models.
 
 ## Features
 
