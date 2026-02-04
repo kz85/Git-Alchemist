@@ -70,26 +70,28 @@ Do NOT use markdown blocks.
 
                     # NEW: Auto-Deployment Logic
                     if Confirm.ask("Initialize Git and deploy to GitHub?"):
-                        repo_name = os.path.basename(cwd)
+                        repo_name = os.path.basename(os.getcwd())
                         console.print(f"[cyan]Initializing repository: {repo_name}...[/cyan]")
-                        run_shell("git init")
                         
-                        # Ensure identity is set
+                        # 1. Initialize and set identity if missing
+                        run_shell("git init")
                         try:
                             run_shell("git config user.name", check=True)
                         except:
-                            run_shell(f'git config user.name "Git-Alchemist"')
-                            run_shell(f'git config user.email "alchemist@localhost"')
+                            run_shell(f'git config user.name "abduznik"')
+                            run_shell(f'git config user.email "abduznik@users.noreply.github.com"')
 
+                        # 2. Add and Commit
                         run_shell("git add .")
                         run_shell('git commit -m "feat: Initial scaffold by Git-Alchemist"')
                         
+                        # 3. Create and Push
                         try:
                             console.print("[magenta]Creating GitHub repository...[/magenta]")
                             run_shell(f"gh repo create {repo_name} --public --source=. --remote=origin --push")
                             console.print(f"[bold yellow]✨ Project deployed to GitHub: {repo_name}[/bold yellow]")
                         except Exception as e:
-                            console.print(f"[red]GitHub deployment failed (check if repo already exists):[/red] {e}")
+                            console.print(f"[red]GitHub deployment failed:[/red] {e}")
                 else:
                     console.print("[yellow]Discarding workspace.[/yellow]")
                     
