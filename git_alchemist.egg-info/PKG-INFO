@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: git-alchemist
-Version: 1.0.0
+Version: 1.0.1
 Summary: A unified AI stack to optimize, describe, and architect your GitHub repositories.
 Author: abduznik
 License: MIT
@@ -50,7 +50,7 @@ Git-Alchemist features a dynamic fallback system to ensure you never hit a quota
 
 2.  **Install as a Global Library:**
     ```bash
-    pip install .
+    pip install git-alchemist
     ```
 
 3.  **Set up your Environment:**

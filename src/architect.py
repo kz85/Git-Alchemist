@@ -59,7 +59,6 @@ Do NOT use markdown blocks.
                 
                 if Confirm.ask("Keep these files? (Moves them to current directory)"):
                     # Move files from temp_dir to cwd
-                    # We iterate over items in temp_dir and move them
                     for item in os.listdir(temp_dir):
                         s = os.path.join(temp_dir, item)
                         d = os.path.join(cwd, item)
@@ -68,6 +67,21 @@ Do NOT use markdown blocks.
                         else:
                             shutil.move(s, d)
                     console.print("[green]Files moved successfully.[/green]")
+
+                    # NEW: Auto-Deployment Logic
+                    if Confirm.ask("Initialize Git and deploy to GitHub?"):
+                        repo_name = os.path.basename(cwd)
+                        console.print(f"[cyan]Initializing repository: {repo_name}...[/cyan]")
+                        run_shell("git init")
+                        run_shell("git add .")
+                        run_shell('git commit -m "feat: Initial scaffold by Git-Alchemist"')
+                        
+                        try:
+                            console.print("[magenta]Creating GitHub repository...[/magenta]")
+                            run_shell(f"gh repo create {repo_name} --public --source=. --remote=origin --push")
+                            console.print(f"[bold yellow]✨ Project deployed to GitHub: {repo_name}[/bold yellow]")
+                        except Exception as e:
+                            console.print(f"[red]GitHub deployment failed (check if repo already exists):[/red] {e}")
                 else:
                     console.print("[yellow]Discarding workspace.[/yellow]")
                     
