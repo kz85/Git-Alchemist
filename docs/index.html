@@ -71,7 +71,7 @@
                 </div>
                 <div class="relative">
                     <code id="install-cmd" class="block p-4 bg-black/40 rounded-xl text-sm mono text-blue-300 break-all border border-white/5 leading-relaxed">
-                        git clone https://github.com/abduznik/Git-Alchemist.git && cd Git-Alchemist && pip install .
+                        pip install git-alchemist
                     </code>
                     <button onclick="copyCurrentCmd(this)" class="copy-btn absolute top-3 right-3 p-2 bg-slate-800 rounded-lg border border-white/10 hover:bg-slate-700 transition">
                         <svg class="w-5 h-5 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path></svg>
@@ -176,17 +176,17 @@
             lib: {
                 title: 'Global Library Setup',
                 desc: 'Install once, run everywhere.',
-                cmd: 'git clone https://github.com/abduznik/Git-Alchemist.git && cd Git-Alchemist && pip install .'
+                cmd: 'pip install git-alchemist'
             },
             ps: {
                 title: 'PowerShell Setup',
                 desc: 'Optimized for Windows 10/11 environment.',
-                cmd: 'git clone https://github.com/abduznik/Git-Alchemist.git; cd Git-Alchemist; pip install -r requirements.txt'
+                cmd: 'pip install git-alchemistr requirements.txt'
             },
             sh: {
                 title: 'Linux / Shell Setup',
                 desc: 'Ideal for Termux, Ubuntu, or WSL.',
-                cmd: 'git clone https://github.com/abduznik/Git-Alchemist.git && cd Git-Alchemist && pip install -r requirements.txt'
+                cmd: 'pip install git-alchemistr requirements.txt'
             }
         };
 

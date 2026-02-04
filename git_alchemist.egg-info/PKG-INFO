@@ -1,3 +1,18 @@
+Metadata-Version: 2.4
+Name: git-alchemist
+Version: 1.0.0
+Summary: A unified AI stack to optimize, describe, and architect your GitHub repositories.
+Author: abduznik
+License: MIT
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: google-genai
+Requires-Dist: rich
+Requires-Dist: python-dotenv
+Requires-Dist: requests
+Dynamic: license-file
+
 # Git-Alchemist ⚗️
 
 **Git-Alchemist ⚗️** is a unified AI-powered CLI tool for automating GitHub repository management. It consolidates multiple technical utilities into a single, intelligent system powered by Google's Gemini 3 and Gemma 3 models.
@@ -35,7 +50,7 @@ Git-Alchemist features a dynamic fallback system to ensure you never hit a quota
 
 2.  **Install as a Global Library:**
     ```bash
-    pip install git-alchemist
+    pip install .
     ```
 
 3.  **Set up your Environment:**
