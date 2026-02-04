@@ -5,6 +5,7 @@ from .profile_gen import generate_profile
 from .architect import scaffold_project, fix_code, explain_code
 from .repo_tools import optimize_topics, generate_descriptions
 from .issue_gen import create_issue
+from .audit import run_audit
 
 console = Console()
 
@@ -13,10 +14,13 @@ def main():
     parser.add_argument("--smart", action="store_true", help="Use high-end Gemini Pro models (slower/lower quota)")
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
     
-    # ... existing parser code ...
-    # (I'll keep the subparser definitions as is, just the execution logic changes)
+    # ... previous subparsers ...
+    # (I will match the context properly in the replacement)
 
-    # Re-pasting the subparser block to ensure replace works correctly with context
+    # Audit Command
+    audit_parser = subparsers.add_parser("audit", help="Check repository 'Gold' status and metadata")
+    audit_parser.add_argument("--repo", help="Specific repository name to audit")
+
     # Profile Generator Command
     profile_parser = subparsers.add_parser("profile", help="Generate or update GitHub Profile README")
     profile_parser.add_argument("--force", action="store_true", help="Force full regeneration")
@@ -61,6 +65,8 @@ def main():
         fix_code(args.file, args.instruction, mode=mode)
     elif args.command == "explain":
         explain_code(args.context, mode=mode)
+    elif args.command == "audit":
+        run_audit(repo_name=args.repo)
     else:
         parser.print_help()
 
