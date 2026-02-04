@@ -31,7 +31,7 @@ def run_audit(user=None, repo_name=None):
         "LICENSE": {"score": 10, "found": bool(repo_data.get("licenseInfo")) or any(os.path.exists(f) for f in ["LICENSE", "LICENSE.md", "LICENSE.txt"])},
         "CONTRIBUTING.md": {"score": 10, "found": any(os.path.exists(f) for f in ["CONTRIBUTING.md", "CONTRIBUTING"])},
         "Metadata: Description": {"score": 20, "found": bool(repo_data.get("description"))},
-        "Metadata: Topics": {"score": 20, "found": len(repo_data.get("repositoryTopics", [])) >= 3},
+        "Metadata: Topics": {"score": 20, "found": len(repo_data.get("repositoryTopics") or []) >= 3},
         "CI/CD: GitHub Actions": {"score": 20, "found": os.path.exists(".github/workflows")},
     }
 
