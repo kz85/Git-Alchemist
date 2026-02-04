@@ -73,6 +73,14 @@ Do NOT use markdown blocks.
                         repo_name = os.path.basename(cwd)
                         console.print(f"[cyan]Initializing repository: {repo_name}...[/cyan]")
                         run_shell("git init")
+                        
+                        # Ensure identity is set
+                        try:
+                            run_shell("git config user.name", check=True)
+                        except:
+                            run_shell(f'git config user.name "Git-Alchemist"')
+                            run_shell(f'git config user.email "alchemist@localhost"')
+
                         run_shell("git add .")
                         run_shell('git commit -m "feat: Initial scaffold by Git-Alchemist"')
                         
