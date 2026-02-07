@@ -152,7 +152,11 @@ Instructions:
             # Create PR
             cmd = f'gh pr create --title "{title}" --body "{body}\n\n> Forged by Git-Alchemist ⚗️"'
             output = run_shell(cmd)
-            console.print("[bold yellow]✨ PR successfully forged and opened![/bold yellow]")
+            if output and output.startswith("http"):
+                console.print(f"[bold yellow]✨ PR successfully forged and opened: {output}[/bold yellow]")
+            else:
+                 console.print("[bold yellow]✨ PR successfully forged and opened![/bold yellow]")
+                 if output: console.print(f"[dim]{output}[/dim]")
 
             # Cleanup: Checkout base branch and delete the forge branch
             try:
