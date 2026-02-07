@@ -13,7 +13,14 @@ def get_branch_diff(base_branch="master"):
     try:
         # If base_branch is not provided or invalid, try to detect it
         if not base_branch:
-             base_branch = run_shell("git remote show origin | grep 'HEAD branch' | cut -d' ' -f5", check=False) or "master"
+             remote_info = run_shell("git remote show origin", check=False)
+             if remote_info:
+                 for line in remote_info.splitlines():
+                     if "HEAD branch" in line:
+                         base_branch = line.split(":")[-1].strip()
+                         break
+             if not base_branch:
+                 base_branch = "master"
              
         return run_shell(f"git diff {base_branch}...HEAD", check=False), base_branch
     except:
@@ -80,7 +87,14 @@ def forge_pr(mode="fast"):
     handle_uncommitted_changes(mode=mode)
 
     # Detect base branch
-    base_branch = run_shell("git remote show origin | grep 'HEAD branch' | cut -d' ' -f5", check=False) 
+    base_branch = None
+    remote_info = run_shell("git remote show origin", check=False)
+    if remote_info:
+        for line in remote_info.splitlines():
+            if "HEAD branch" in line:
+                base_branch = line.split(":")[-1].strip()
+                break
+    
     if not base_branch:
         base_branch = "master"
         # Try main if master doesn't look right, but remote show origin is best source
