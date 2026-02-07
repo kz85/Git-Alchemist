@@ -144,13 +144,16 @@ Instructions:
 2. Body: 
    - Start DIRECTLY with the high-level description/summary (Do NOT use a header like 'Summary' or '## Summary').
    - Follow with a section "## Technical Changes" with bullet points.
-   - **Crucial**: If the changes likely resolve or relate to any Open Issue listed above (check branch name and code), append "Fixes #<number>" or "Relates to #<number>" at the very end.
-3. **CRITICAL**: The output MUST be a valid JSON object with keys "title" and "body".
+3. **CRITICAL**: The output MUST be a valid JSON object with keys:
+   - "title": (string) PR Title
+   - "body": (string) PR Body
+   - "fixes_issue": (number or null) If the code resolves an open issue, put the issue number here.
 
 Example Output:
 {{
   "title": "feat: add new feature",
-  "body": "This PR adds...\n\n## Technical Changes\n* Change A\n* Change B"
+  "body": "This PR adds...\n\n## Technical Changes\n* Change A\n* Change B",
+  "fixes_issue": 42
 }}
 """
 
@@ -187,6 +190,11 @@ Example Output:
         
         title = pr_data.get("title", "AI PR Update")
         body = pr_data.get("body", "Automated PR created by Git-Alchemist.")
+        
+        # Explicitly append "Fixes #..." if detected
+        issue_num = pr_data.get("fixes_issue")
+        if issue_num and isinstance(issue_num, int):
+            body += f"\n\nFixes #{issue_num}"
         
         console.print(f"\n[bold green]Forged PR Title:[/bold green] {title}")
         console.print(f"[bold green]Forged PR Body:[/bold green]\n{body}\n")
