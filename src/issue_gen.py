@@ -1,13 +1,14 @@
 import json
 import tempfile
 import os
+from typing import Literal
 from rich.console import Console
 from .core import generate_content
 from .utils import run_shell, get_codebase_context
 
 console = Console()
 
-def create_issue(idea, mode="fast"):
+def create_issue(idea: str, mode: Literal["fast", "smart"] = "fast") -> None:
     """
     Translates an idea into technical GitHub issue(s).
     """
