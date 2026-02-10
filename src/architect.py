@@ -3,6 +3,7 @@ import json
 import shutil
 import tempfile
 import subprocess
+from typing import Optional, Literal
 from rich.console import Console
 from rich.prompt import Confirm
 from .core import generate_content
@@ -10,7 +11,10 @@ from .utils import run_shell
 
 console = Console()
 
-def scaffold_project(instruction, mode="fast"):
+def scaffold_project(
+    instruction: str, 
+    mode: Literal["fast", "smart"] = "fast"
+) -> None:
     """
     Generates shell commands to scaffold a project in a temporary directory.
     """
@@ -107,7 +111,11 @@ Do NOT use markdown blocks.
             shutil.rmtree(temp_dir)
             console.print("[gray]Temporary workspace cleaned up.[/gray]")
 
-def fix_code(file_path, instruction, mode="fast"):
+def fix_code(
+    file_path: str, 
+    instruction: str, 
+    mode: Literal["fast", "smart"] = "fast"
+) -> None:
     """
     Reads a file, applies an AI fix, and optionally creates a PR.
     """
@@ -161,7 +169,10 @@ Goal: Return ONLY the complete, corrected file content based on the User Instruc
         except Exception as e:
             console.print(f"[red]PR creation failed:[/red] {e}")
 
-def explain_code(context, mode="fast"):
+def explain_code(
+    context: Optional[str], 
+    mode: Literal["fast", "smart"] = "fast"
+) -> None:
     """
     Explains a concept or code snippet.
     """

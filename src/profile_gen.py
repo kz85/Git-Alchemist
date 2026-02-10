@@ -4,6 +4,7 @@ import tempfile
 import shutil
 import re
 from pathlib import Path
+from typing import List, Literal, Dict, Any
 from rich.console import Console
 from rich.prompt import Confirm
 from .core import generate_content
@@ -11,7 +12,7 @@ from .utils import run_shell, check_gh_auth, get_user_email
 
 console = Console()
 
-def fetch_repos(username):
+def fetch_repos(username: str) -> List[Dict[str, Any]]:
     """
     Fetches public repositories for the user.
     """
@@ -24,7 +25,12 @@ def fetch_repos(username):
         console.print(f"[red]Failed to fetch repos:[/red] {e}")
         return []
 
-def filter_repos(repos, username, strategy="FULL_GEN", existing_content=""):
+def filter_repos(
+    repos: List[Dict[str, Any]], 
+    username: str, 
+    strategy: Literal["FULL_GEN", "SMART_UPDATE"]="FULL_GEN", 
+    existing_content: str = ""
+) -> List[Dict[str, Any]]:
     """
     Filters out junk, private, archived, and irrelevant repos (like Awesome lists).
     """
@@ -53,7 +59,11 @@ def filter_repos(repos, username, strategy="FULL_GEN", existing_content=""):
         
     return candidates
 
-def generate_profile(username, force=False, mode="fast"):
+def generate_profile(
+    username: str, 
+    force: bool = False, 
+    mode: Literal["fast", "smart"]="fast"
+) -> None:
     """
     Main function to generate or update the profile.
     """
@@ -67,7 +77,7 @@ def generate_profile(username, force=False, mode="fast"):
     
     # Discovery
     current_content = ""
-    strategy = "FULL_GEN"
+    strategy: Literal["FULL_GEN", "SMART_UPDATE"] = "FULL_GEN"
     
     try:
         console.print("[cyan]Checking for existing profile...[/cyan]")
@@ -147,7 +157,7 @@ Instructions:
     if Confirm.ask("Deploy these changes via Pull Request?"):
         deploy_profile(username, final_md)
 
-def deploy_profile(username, content):
+def deploy_profile(username: str, content: str) -> None:
     """
     Clones the profile repo, updates README, and opens a PR.
     """
