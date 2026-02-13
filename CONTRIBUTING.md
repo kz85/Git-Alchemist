@@ -16,6 +16,11 @@ Thank you for your interest in improving Git-Alchemist! We welcome contributions
 2. Set up your `.env` with a `GEMINI_API_KEY`.
 3. Run the CLI: `python -m src.cli --help`
 
+## Testing
+1. Run `pytest` in the command line to run the test suite. Ensure all tests pass before submitting a Pull Request.
+
+2. Check for regressions with the CLI audit tool `python -m src.cli audit`
+
 ## Reporting Bugs
 
 Please use the [GitHub Issues](https://github.com/abduznik/Git-Alchemist/issues) page to report bugs or suggest features.
