@@ -99,7 +99,7 @@ def check_gh_auth() -> str | None:
     try:
         user_login = run_shell('gh api user -q ".login"')
         return user_login
-    except:
+    except Exception:
         return None
 
 def get_user_email() -> str | None:
@@ -109,5 +109,5 @@ def get_user_email() -> str | None:
     try:
         email = run_shell('gh api user -q ".email"', check=False)
         return email if email else None
-    except:
+    except Exception:
         return None
